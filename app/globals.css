@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0b0b0b;
+  --surface: #111113;
+  --surface-soft: #17171a;
+  --text: #f4f4f5;
+  --text-muted: #b4b4bc;
+  --accent: #b8924b;
+  --accent-hover: #cda25a;
+  --border: #25252b;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: radial-gradient(circle at top, #161618 0%, #0b0b0b 45%);
+  color: var(--text);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 15px;
+  }
+}
