@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import BackButton from "./BackButton";
 import {
@@ -45,6 +46,15 @@ export default function QuestionLanding({
   const question = QUIZ_QUESTIONS[safeStep - 1];
   const visual = QUESTION_VISUALS[question.id];
   const selected = answers[safeStep - 1];
+  const nextQuestion = safeStep < TOTAL_QUESTIONS ? QUIZ_QUESTIONS[safeStep] : null;
+  const nextVisual = nextQuestion ? QUESTION_VISUALS[nextQuestion.id] : null;
+
+  // Preload the next question image to make step transitions feel instant.
+  useEffect(() => {
+    if (!nextVisual) return;
+    const preloader = new window.Image();
+    preloader.src = nextVisual.imagePath;
+  }, [nextVisual]);
 
   const nextWithAnswer = (value: number) => {
     const nextAnswers = answers.split("");
@@ -88,18 +98,19 @@ export default function QuestionLanding({
         </p>
 
         <section className="mt-2 flex min-h-0 flex-1 flex-col rounded-2xl border border-zinc-800 bg-zinc-900/70 p-2.5">
-          <div className="overflow-hidden rounded-xl border border-zinc-700 bg-zinc-950">
+          <div className="relative overflow-hidden rounded-xl border border-zinc-700 bg-zinc-950">
             {/* Add realistic image files into /public/images/questions/q{n}.jpg */}
-            <img
-              src={visual.imagePath}
-              alt={visual.alt}
-              loading="lazy"
-              className="h-[40dvh] min-h-52 max-h-[50dvh] w-full object-cover"
-              onError={(event) => {
-                const target = event.currentTarget;
-                target.style.display = "none";
-              }}
-            />
+            <div className="relative h-[40dvh] min-h-52 max-h-[50dvh] w-full">
+              <Image
+                src={visual.imagePath}
+                alt={visual.alt}
+                fill
+                quality={50}
+                sizes="(max-width: 768px) 100vw, 448px"
+                className="object-contain"
+                priority={safeStep <= 2}
+              />
+            </div>
           </div>
           <p className="mt-3 text-[13px] leading-snug text-zinc-100">
             {safeStep}. {question.text}

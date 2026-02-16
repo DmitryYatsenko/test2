@@ -83,7 +83,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
 
 export const QUESTION_VISUALS: Record<number, QuestionVisual> = {
   1: {
-    imagePath: "/images/questions/q1.png",
+    imagePath: "/images/questions/q1.jpg",
     alt: "Мужчина в деловой обстановке принимает сложное решение.",
     promptHint:
       "Realistic cinematic portrait of a thoughtful man in a dark office, deciding between two options, moody light, masculine style.",
